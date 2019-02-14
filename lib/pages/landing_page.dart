@@ -40,8 +40,9 @@ class LandingPageState extends State<LandingPage>
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            Colors.grey[900],
-            Colors.black,
+            Colors.lightBlue,
+            Colors.blue,
+            Colors.blueAccent[700],
           ],
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
