@@ -10,9 +10,11 @@ import 'package:ouija_quiz_game/pages/quiz_page.dart';
 class EndPage extends StatelessWidget {
   final int _score;
   final int _totalQuestions;
+  final int _selectedMode;
   final List<AnsweredQuestion> _answeredQuestion;
 
-  EndPage(this._score, this._totalQuestions, this._answeredQuestion);
+  EndPage(this._score, this._totalQuestions, this._answeredQuestion,
+      this._selectedMode);
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +60,7 @@ class EndPage extends StatelessWidget {
       return Column(
         children: <Widget>[
           _buildTile(index),
-          Ending(_score, _answeredQuestion.length),
+          Ending(_score, _answeredQuestion.length, _selectedMode),
         ],
       );
     } else {
@@ -295,8 +297,9 @@ class SubListTile extends StatelessWidget {
 class Ending extends StatelessWidget {
   final int _score;
   final int _totalQuestions;
+  final int _selectedMode;
 
-  const Ending(this._score, this._totalQuestions);
+  const Ending(this._score, this._totalQuestions, this._selectedMode);
 
   @override
   Widget build(BuildContext context) {
@@ -435,7 +438,8 @@ class Ending extends StatelessWidget {
               ),
               onPressed: () => Navigator.of(context).pushAndRemoveUntil(
                   MaterialPageRoute(
-                      builder: (BuildContext context) => QuizPage()),
+                      builder: (BuildContext context) =>
+                          QuizPage(_selectedMode)),
                   (Route route) => route == null),
             ),
           )

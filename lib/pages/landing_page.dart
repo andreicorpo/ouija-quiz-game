@@ -50,59 +50,143 @@ class LandingPageState extends State<LandingPage>
       ),
       child: Material(
         color: Colors.transparent,
-        child: InkWell(
-          splashColor: Colors.transparent,
-          highlightColor: Colors.transparent,
-          onTap: _isAnimation1Complete
-              ? () {
-                  this.setState(() {
-                    _animation = 'play';
-                    _opacityAC.reset();
-                  });
-                  Timer(
-                    const Duration(milliseconds: 670),
-                    () {
-                      Navigator.of(context).pushAndRemoveUntil(
-                          (MaterialPageRoute(
-                            builder: (BuildContext context) => QuizPage(),
-                          )),
-                          (Route route) => route == null);
-                    },
-                  );
-                }
-              : () {},
-          child: Stack(
-            children: <Widget>[
-              Center(
-                child: FlareActor(
-                  'assets/OuijaOpenPage.flr',
-                  alignment: Alignment.center,
-                  fit: BoxFit.contain,
-                  animation: _animation,
-                  callback: ((_animation) => this.setState(() {
-                        _isAnimation1Complete = true;
-                        _opacityAC.forward();
-                      })),
-                ),
+        child: Stack(
+          children: <Widget>[
+            Center(
+              child: FlareActor(
+                'assets/OuijaOpenPage.flr',
+                alignment: Alignment.center,
+                fit: BoxFit.contain,
+                animation: _animation,
+                callback: ((_animation) => this.setState(() {
+                      _isAnimation1Complete = true;
+                      _opacityAC.forward();
+                    })),
               ),
-              _isAnimation1Complete
-                  ? Center(
-                      child: Container(
-                        padding: EdgeInsets.only(top: 200.0),
-                        child: Text(
-                          'Tap to play',
-                          style: TextStyle(
-                            fontSize: 25.0,
-                            color: Colors.white.withOpacity(_opacityA.value),
+            ),
+            _isAnimation1Complete
+                ? Center(
+                    child: Column(
+                      children: <Widget>[
+                        Container(
+                          padding: EdgeInsets.only(
+                              top: MediaQuery.of(context).size.height / 2 + 50),
+                          child: Text(
+                            'Select mode to play',
+                            style: TextStyle(
+                              fontSize: 18.0,
+                              color: Colors.white.withOpacity(_opacityA.value),
+                            ),
+                            textAlign: TextAlign.center,
                           ),
                         ),
-                      ),
-                    )
-                  : Container(),
-            ],
-          ),
+                        Padding(
+                          padding: EdgeInsets.only(top: 10.0),
+                        ),
+                        Container(
+                          child: Opacity(
+                            opacity: _opacityA.value,
+                            child: Column(
+                              children: <Widget>[
+                                FlatButton(
+                                  child: Container(
+                                    padding: EdgeInsets.all(6.0),
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                        width: 2.0,
+                                        color: Colors.white,
+                                      ),
+                                      borderRadius: BorderRadius.circular(5.0),
+                                    ),
+                                    width: 100,
+                                    child: Center(
+                                      child: Text(
+                                        'Easy',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 16,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  onPressed: () => _openQuizPage(0),
+                                ),
+                                FlatButton(
+                                  child: Container(
+                                    padding: EdgeInsets.all(6.0),
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                        width: 2.0,
+                                        color: Colors.white,
+                                      ),
+                                      borderRadius: BorderRadius.circular(5.0),
+                                    ),
+                                    width: 100,
+                                    child: Center(
+                                      child: Text(
+                                        'Normal',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 16,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  onPressed: () => _openQuizPage(1),
+                                ),
+                                FlatButton(
+                                  child: Container(
+                                    padding: EdgeInsets.all(6.0),
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                        width: 2.0,
+                                        color: Colors.white,
+                                      ),
+                                      borderRadius: BorderRadius.circular(5.0),
+                                    ),
+                                    width: 100,
+                                    child: Center(
+                                      child: Text(
+                                        'Hardcore',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 16,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  onPressed: () => _openQuizPage(2),
+                                ),
+                              ],
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  )
+                : Container(),
+          ],
         ),
       ),
     );
+  }
+
+  void _openQuizPage(int mode) {
+    if (_isAnimation1Complete) {
+      this.setState(() {
+        _animation = 'play';
+        _opacityAC.reset();
+      });
+      Timer(
+        const Duration(milliseconds: 670),
+        () {
+          Navigator.of(context).pushAndRemoveUntil(
+              (MaterialPageRoute(
+                builder: (BuildContext context) => QuizPage(mode),
+              )),
+              (Route route) => route == null);
+        },
+      );
+    }
   }
 }

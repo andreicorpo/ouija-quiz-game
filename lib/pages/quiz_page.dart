@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:ouija_quiz_game/pages/end_page.dart';
@@ -12,6 +13,10 @@ import 'package:ouija_quiz_game/utils/quiz.dart';
 import 'package:ouija_quiz_game/utils/reddit_api.dart';
 
 class QuizPage extends StatefulWidget {
+  final int _selectedMode;
+
+  const QuizPage(this._selectedMode);
+
   @override
   State<StatefulWidget> createState() => _QuizPageState();
 }
@@ -79,7 +84,30 @@ class _QuizPageState extends State<QuizPage> with TickerProviderStateMixin {
   }
 
   String _getAnswer() {
-    return _correctAnswer.replaceAll(RegExp('[0-9a-zA-Z]'), '_');
+    String answer;
+    switch (widget._selectedMode) {
+      case 0:
+        Random rnd = Random();
+        answer = _correctAnswer;
+        while (answer.replaceAll('_', '').length > _correctAnswer.length ~/ 2) {
+          int pos = rnd.nextInt(_correctAnswer.length);
+          answer = answer.replaceAll(answer[pos], '_');
+        }
+        _correctLetters += answer.replaceAll('_', '');
+        break;
+      case 1:
+        answer = _correctAnswer.replaceAll(
+            RegExp(
+                '(?![${_correctAnswer[0]}${_correctAnswer[_correctAnswer.length - 1]}])[0-9a-zA-Z]'),
+            '_');
+        _correctLetters += answer.replaceAll('_', '');
+        break;
+      case 2:
+        return _correctAnswer.replaceAll(RegExp('[0-9a-zA-Z]'), '_');
+      default:
+        break;
+    }
+    return answer;
   }
 
   void _updateAnswer() {
@@ -272,29 +300,12 @@ class _QuizPageState extends State<QuizPage> with TickerProviderStateMixin {
     );
   }
 
-  String _getDiffculty() {
-    int wordLength = _correctAnswer.length;
-    int numUniqueLetters = Set.from(_correctAnswer.split('')).length;
-    double res =
-        (((wordLength - 5) * (1 - (wordLength / numUniqueLetters))) * .5) + 5;
-    double finalRes = res * 10;
-    return finalRes <= 33 ? 'EAZY' : finalRes <= 66 ? 'MEDIUM' : 'HARD';
-  }
-
-  double _getDiffcultyV2() {
-    int wordLength = _correctAnswer.length;
-    int numUniqueLetters = Set.from(_correctAnswer.split('')).length;
-    double res =
-        (((wordLength - 5) * (1 - (wordLength / numUniqueLetters))) * .5) + 5;
-    return res * 10;
-  }
-
   void _handleNextQuestion() {
     if (25 <= _questionNumber) {
       Navigator.of(context).pushAndRemoveUntil(
           (MaterialPageRoute(
-              builder: (BuildContext context) =>
-                  EndPage(_quiz.score, _quiz.length, _answeredQuestions))),
+              builder: (BuildContext context) => EndPage(_quiz.score,
+                  _quiz.length, _answeredQuestions, widget._selectedMode))),
           (Route route) => route == null);
       return;
     } else {
