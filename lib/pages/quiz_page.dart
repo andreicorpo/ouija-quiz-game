@@ -171,17 +171,6 @@ class _QuizPageState extends State<QuizPage> with TickerProviderStateMixin {
                         Container(
                           padding: EdgeInsets.all(4.0),
                           child: Text(
-                            'Difficulty: ${_getDiffculty()}',
-                            style: TextStyle(
-                              fontSize: 12.0,
-                              color: Colors.white54,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                        Container(
-                          padding: EdgeInsets.all(4.0),
-                          child: Text(
                             'Ouija said: ',
                             style: TextStyle(
                               fontSize: 18.0,
