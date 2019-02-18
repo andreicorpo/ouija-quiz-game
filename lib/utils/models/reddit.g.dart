@@ -149,10 +149,16 @@ class _$PostSerializer implements StructuredSerializer<Post> {
       'url',
       serializers.serialize(object.url, specifiedType: const FullType(String)),
     ];
-    if (object.link_flair_text != null) {
+    if (object.response != null) {
       result
         ..add('link_flair_text')
-        ..add(serializers.serialize(object.link_flair_text,
+        ..add(serializers.serialize(object.response,
+            specifiedType: const FullType(String)));
+    }
+    if (object.text != null) {
+      result
+        ..add('selftext')
+        ..add(serializers.serialize(object.text,
             specifiedType: const FullType(String)));
     }
 
@@ -175,7 +181,11 @@ class _$PostSerializer implements StructuredSerializer<Post> {
               specifiedType: const FullType(String)) as String;
           break;
         case 'link_flair_text':
-          result.link_flair_text = serializers.deserialize(value,
+          result.response = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
+          break;
+        case 'selftext':
+          result.text = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String;
           break;
         case 'url':
@@ -460,14 +470,16 @@ class _$Post extends Post {
   @override
   final String title;
   @override
-  final String link_flair_text;
+  final String response;
+  @override
+  final String text;
   @override
   final String url;
 
   factory _$Post([void updates(PostBuilder b)]) =>
       (new PostBuilder()..update(updates)).build();
 
-  _$Post._({this.title, this.link_flair_text, this.url}) : super._() {
+  _$Post._({this.title, this.response, this.text, this.url}) : super._() {
     if (title == null) {
       throw new BuiltValueNullFieldError('Post', 'title');
     }
@@ -488,21 +500,24 @@ class _$Post extends Post {
     if (identical(other, this)) return true;
     return other is Post &&
         title == other.title &&
-        link_flair_text == other.link_flair_text &&
+        response == other.response &&
+        text == other.text &&
         url == other.url;
   }
 
   @override
   int get hashCode {
     return $jf($jc(
-        $jc($jc(0, title.hashCode), link_flair_text.hashCode), url.hashCode));
+        $jc($jc($jc(0, title.hashCode), response.hashCode), text.hashCode),
+        url.hashCode));
   }
 
   @override
   String toString() {
     return (newBuiltValueToStringHelper('Post')
           ..add('title', title)
-          ..add('link_flair_text', link_flair_text)
+          ..add('response', response)
+          ..add('text', text)
           ..add('url', url))
         .toString();
   }
@@ -515,10 +530,13 @@ class PostBuilder implements Builder<Post, PostBuilder> {
   String get title => _$this._title;
   set title(String title) => _$this._title = title;
 
-  String _link_flair_text;
-  String get link_flair_text => _$this._link_flair_text;
-  set link_flair_text(String link_flair_text) =>
-      _$this._link_flair_text = link_flair_text;
+  String _response;
+  String get response => _$this._response;
+  set response(String response) => _$this._response = response;
+
+  String _text;
+  String get text => _$this._text;
+  set text(String text) => _$this._text = text;
 
   String _url;
   String get url => _$this._url;
@@ -529,7 +547,8 @@ class PostBuilder implements Builder<Post, PostBuilder> {
   PostBuilder get _$this {
     if (_$v != null) {
       _title = _$v.title;
-      _link_flair_text = _$v.link_flair_text;
+      _response = _$v.response;
+      _text = _$v.text;
       _url = _$v.url;
       _$v = null;
     }
@@ -552,7 +571,7 @@ class PostBuilder implements Builder<Post, PostBuilder> {
   @override
   _$Post build() {
     final _$result = _$v ??
-        new _$Post._(title: title, link_flair_text: link_flair_text, url: url);
+        new _$Post._(title: title, response: response, text: text, url: url);
     replace(_$result);
     return _$result;
   }

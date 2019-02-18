@@ -31,7 +31,11 @@ abstract class Data implements Built<Data, DataBuilder> {
 abstract class Post implements Built<Post, PostBuilder> {
   String get title;
   @nullable
-  String get link_flair_text;
+  @BuiltValueField(wireName: "link_flair_text")
+  String get response;
+  @nullable
+  @BuiltValueField(wireName: "selftext")
+  String get text;
   String get url;
 
   Post._();

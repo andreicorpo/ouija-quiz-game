@@ -171,6 +171,17 @@ class _QuizPageState extends State<QuizPage> with TickerProviderStateMixin {
                         Container(
                           padding: EdgeInsets.all(4.0),
                           child: Text(
+                            'Difficulty: ${_getDiffculty()}',
+                            style: TextStyle(
+                              fontSize: 12.0,
+                              color: Colors.white54,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                        Container(
+                          padding: EdgeInsets.all(4.0),
+                          child: Text(
                             'Ouija said: ',
                             style: TextStyle(
                               fontSize: 18.0,
@@ -270,6 +281,23 @@ class _QuizPageState extends State<QuizPage> with TickerProviderStateMixin {
         ),
       ),
     );
+  }
+
+  String _getDiffculty() {
+    int wordLength = _correctAnswer.length;
+    int numUniqueLetters = Set.from(_correctAnswer.split('')).length;
+    double res =
+        (((wordLength - 5) * (1 - (wordLength / numUniqueLetters))) * .5) + 5;
+    double finalRes = res * 10;
+    return finalRes <= 33 ? 'EAZY' : finalRes <= 66 ? 'MEDIUM' : 'HARD';
+  }
+
+  double _getDiffcultyV2() {
+    int wordLength = _correctAnswer.length;
+    int numUniqueLetters = Set.from(_correctAnswer.split('')).length;
+    double res =
+        (((wordLength - 5) * (1 - (wordLength / numUniqueLetters))) * .5) + 5;
+    return res * 10;
   }
 
   void _handleNextQuestion() {

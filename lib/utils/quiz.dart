@@ -10,8 +10,10 @@ class Quiz {
 
   Quiz(this._posts) {
     _posts.forEach((post) {
-      if (post.link_flair_text != null) {
-        String response = post.link_flair_text.replaceAll('Ouija says: ', '');
+      if (post.response != null &&
+          post.response.contains('Ouija says: ') &&
+          post.text.isEmpty) {
+        String response = post.response.replaceAll('Ouija says: ', '');
         if (response.contains(RegExp('[0-9a-bA-Z]+')) &&
             !post.title.contains('Please read the rules')) {
           _questions.add(Question(post.title, response, post.url));
