@@ -14,8 +14,11 @@ class Quiz {
           post.response.contains('Ouija says: ') &&
           post.text.isEmpty) {
         String response = post.response.replaceAll('Ouija says: ', '');
+        int numOfLetters =
+            Set.from(response.replaceAll(RegExp(r'\W'), '').split('')).length;
         if (response.contains(RegExp('[0-9a-bA-Z]+')) &&
-            !post.title.contains('Please read the rules')) {
+            !post.title.contains('Please read the rules') &&
+            numOfLetters >= 3) {
           _questions.add(Question(post.title, response, post.url));
           _answers.add(response);
         }
