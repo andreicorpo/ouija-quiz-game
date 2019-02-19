@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:ouija_quiz_game/pages/quiz_page.dart';
+import 'package:ouija_quiz_game/ui/info_dialog.dart';
+import 'package:ouija_quiz_game/ui/mode_button.dart';
 
 class LandingPage extends StatefulWidget {
   @override
@@ -88,74 +90,21 @@ class LandingPageState extends State<LandingPage>
                             opacity: _opacityA.value,
                             child: Column(
                               children: <Widget>[
-                                FlatButton(
-                                  child: Container(
-                                    padding: EdgeInsets.all(6.0),
-                                    decoration: BoxDecoration(
-                                      border: Border.all(
-                                        width: 2.0,
-                                        color: Colors.white,
-                                      ),
-                                      borderRadius: BorderRadius.circular(5.0),
-                                    ),
-                                    width: 100,
-                                    child: Center(
-                                      child: Text(
-                                        'Easy',
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 16,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  onPressed: () => _openQuizPage(0),
+                                ModeButton(
+                                  onPress: () => _openQuizPage(0),
+                                  text: 'Easy',
                                 ),
-                                FlatButton(
-                                  child: Container(
-                                    padding: EdgeInsets.all(6.0),
-                                    decoration: BoxDecoration(
-                                      border: Border.all(
-                                        width: 2.0,
-                                        color: Colors.white,
-                                      ),
-                                      borderRadius: BorderRadius.circular(5.0),
-                                    ),
-                                    width: 100,
-                                    child: Center(
-                                      child: Text(
-                                        'Normal',
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 16,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  onPressed: () => _openQuizPage(1),
+                                ModeButton(
+                                  onPress: () => _openQuizPage(1),
+                                  text: 'Normal',
                                 ),
-                                FlatButton(
-                                  child: Container(
-                                    padding: EdgeInsets.all(6.0),
-                                    decoration: BoxDecoration(
-                                      border: Border.all(
-                                        width: 2.0,
-                                        color: Colors.white,
-                                      ),
-                                      borderRadius: BorderRadius.circular(5.0),
-                                    ),
-                                    width: 100,
-                                    child: Center(
-                                      child: Text(
-                                        'Hardcore',
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 16,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  onPressed: () => _openQuizPage(2),
+                                ModeButton(
+                                  onPress: () => _openQuizPage(2),
+                                  text: 'Hardcore',
+                                ),
+                                ModeButton(
+                                  onPress: () => _showModesInfo(),
+                                  text: 'Info',
                                 ),
                               ],
                             ),
@@ -188,5 +137,12 @@ class LandingPageState extends State<LandingPage>
         },
       );
     }
+  }
+
+  _showModesInfo() {
+    InfoDialog dialog = InfoDialog(context);
+    showDialog(
+        context: context,
+        builder: (BuildContext context) => dialog.showDialog());
   }
 }
