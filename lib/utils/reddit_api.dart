@@ -6,7 +6,7 @@ import 'package:ouija_quiz_game/utils/models/serializers.dart';
 
 import 'package:http/http.dart' as http;
 
-final baseUrl = 'https://www.reddit.com/r/AskOuija/hot.json?limit=50';
+final baseUrl = 'https://www.reddit.com/r/AskOuija/hot.json?limit=75';
 
 Future<List<Post>> getOuijaQandA() async {
   final response = await http.get(Uri.parse(baseUrl));

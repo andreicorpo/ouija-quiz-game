@@ -35,7 +35,7 @@ class InfoDialog {
                         padding: EdgeInsets.only(top: 4.0),
                       ),
                       Text(
-                        'In easy mode you get between 25% - 50% of the letters automatically',
+                        'In easy mode you get between 50% - 75% of the letters automatically',
                         style: TextStyle(color: Colors.white, fontSize: 14.0),
                         textAlign: TextAlign.center,
                       ),
