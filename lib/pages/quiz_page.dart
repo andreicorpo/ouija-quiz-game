@@ -87,22 +87,36 @@ class _QuizPageState extends State<QuizPage> with TickerProviderStateMixin {
     String answer;
     switch (widget._selectedMode) {
       case 0:
+        if (_questionNumber == 12) {
+          print('Break');
+        }
         Random rnd = Random();
         answer = _correctAnswer;
-        while (answer.replaceAll('_', '').length > _correctAnswer.length ~/ 2) {
+        while (
+            answer.replaceAll('_', '').length > _correctAnswer.length ~/ 1.5) {
           int pos = rnd.nextInt(_correctAnswer.length);
-          answer = answer.replaceAll(answer[pos], '_');
+          if (_correctAnswer[pos].contains(RegExp(r'\w+'))) {
+            answer = answer.replaceAll(answer[pos], '_');
+          }
         }
-        _correctLetters += answer.replaceAll('_', '');
+        _correctLetters += answer.replaceAll(RegExp(r'\W'), '');
         break;
       case 1:
+        if (_questionNumber == 12) {
+          print('Break');
+        }
+        String lettersOnly = _correctAnswer.replaceAll(RegExp(r'\W'), '');
         answer = _correctAnswer.replaceAll(
             RegExp(
-                '(?![${_correctAnswer[0]}${_correctAnswer[_correctAnswer.length - 1]}])[0-9a-zA-Z]'),
+                '(?![${lettersOnly[0]}${lettersOnly[lettersOnly.length - 1]}])[0-9a-zA-Z]'),
             '_');
-        _correctLetters += answer.replaceAll('_', '');
+        _correctLetters += lettersOnly[0];
+        _correctLetters += lettersOnly[lettersOnly.length - 1];
         break;
       case 2:
+        if (_questionNumber == 12) {
+          print('Break');
+        }
         return _correctAnswer.replaceAll(RegExp('[0-9a-zA-Z]'), '_');
       default:
         break;
@@ -301,7 +315,7 @@ class _QuizPageState extends State<QuizPage> with TickerProviderStateMixin {
   }
 
   void _handleNextQuestion() {
-    if (25 <= _questionNumber) {
+    if (25 <= _questionNumber || _questionNumber >= _quiz.length) {
       Navigator.of(context).pushAndRemoveUntil(
           (MaterialPageRoute(
               builder: (BuildContext context) => EndPage(_quiz.score,
