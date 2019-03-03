@@ -16,7 +16,7 @@ class LandingPage extends StatefulWidget {
 class LandingPageState extends State<LandingPage>
     with SingleTickerProviderStateMixin {
   String _animation;
-  bool _isAnimation1Complete = false;
+  bool _isAnimationComplete = false;
   Animation _opacityA;
   AnimationController _opacityAC;
 
@@ -26,7 +26,7 @@ class LandingPageState extends State<LandingPage>
     _animation = 'title_reveal';
     _opacityAC =
         AnimationController(vsync: this, duration: Duration(milliseconds: 500));
-    _opacityA = Tween(begin: 0.0, end: 0.5).animate(_opacityAC)
+    _opacityA = Tween(begin: 0.0, end: 1.0).animate(_opacityAC)
       ..addListener(() => this.setState(() {}));
   }
 
@@ -54,25 +54,27 @@ class LandingPageState extends State<LandingPage>
         color: Colors.transparent,
         child: Stack(
           children: <Widget>[
-            Center(
-              child: FlareActor(
-                'assets/OuijaOpenPage.flr',
-                alignment: Alignment.center,
-                fit: BoxFit.contain,
-                animation: _animation,
-                callback: ((_animation) => this.setState(() {
-                      _isAnimation1Complete = true;
-                      _opacityAC.forward();
-                    })),
-              ),
-            ),
-            _isAnimation1Complete
+            _isAnimationComplete
+                ? Container()
+                : Center(
+                    child: FlareActor(
+                      'assets/OuijaOpenPage.flr',
+                      alignment: Alignment.center,
+                      fit: BoxFit.contain,
+                      animation: _animation,
+                      callback: ((_animation) => this.setState(() {
+                            _startSecondAnimation();
+                            _opacityAC.forward();
+                          })),
+                    ),
+                  ),
+            _isAnimationComplete
                 ? Center(
                     child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.max,
                       children: <Widget>[
                         Container(
-                          padding: EdgeInsets.only(
-                              top: MediaQuery.of(context).size.height / 2 + 50),
                           child: Text(
                             'Select mode to play',
                             style: TextStyle(
@@ -121,21 +123,12 @@ class LandingPageState extends State<LandingPage>
   }
 
   void _openQuizPage(int mode) {
-    if (_isAnimation1Complete) {
-      this.setState(() {
-        _animation = 'play';
-        _opacityAC.reset();
-      });
-      Timer(
-        const Duration(milliseconds: 670),
-        () {
-          Navigator.of(context).pushAndRemoveUntil(
-              (MaterialPageRoute(
-                builder: (BuildContext context) => QuizPage(mode),
-              )),
-              (Route route) => route == null);
-        },
-      );
+    if (_isAnimationComplete) {
+      Navigator.of(context).pushAndRemoveUntil(
+          (MaterialPageRoute(
+            builder: (BuildContext context) => QuizPage(mode),
+          )),
+          (Route route) => route == null);
     }
   }
 
@@ -144,5 +137,12 @@ class LandingPageState extends State<LandingPage>
     showDialog(
         context: context,
         builder: (BuildContext context) => dialog.showDialog());
+  }
+
+  void _startSecondAnimation() {
+    this.setState(() => _animation = 'play');
+    Timer(const Duration(milliseconds: 670), () {
+      _isAnimationComplete = true;
+    });
   }
 }
