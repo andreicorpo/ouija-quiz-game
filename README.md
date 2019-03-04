@@ -5,20 +5,21 @@ The user is given a question and he has to guess the answer given by the communi
 
 ## Example
 
-![Example gif](https://github.com/andreicorpo/ouija-quiz-game/blob/master/example.gif =150x)
+<img src="https://github.com/andreicorpo/ouija-quiz-game/blob/master/example.gif" width=200>
 
 ## Easy Mode
 
-![Easy Mode](https://github.com/andreicorpo/ouija-quiz-game/blob/master/Screenshot_20190304-132626.jpg =150x)
+<img src="https://github.com/andreicorpo/ouija-quiz-game/blob/master/Screenshot_20190304-132626.jpg" width=200>
 
 
 ## Normal Mode
 
-![Normal Mode](https://github.com/andreicorpo/ouija-quiz-game/blob/master/Screenshot_20190304-132646.jpg =150x)
+<img src="https://github.com/andreicorpo/ouija-quiz-game/blob/master/Screenshot_20190304-132646.jpg" width=200>
 
 
 ## Hardcore Mode
 
-![Hardcore Mode](https://github.com/andreicorpo/ouija-quiz-game/blob/master/Screenshot_20190304-132703.jpg =150x)
+<img src="https://github.com/andreicorpo/ouija-quiz-game/blob/master/Screenshot_20190304-132703.jpg" width=200>
+
 
 Made in Flutter. 
